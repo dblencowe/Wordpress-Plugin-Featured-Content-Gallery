@@ -3,8 +3,8 @@ $(document).ready(function() {
 	var image_number=($('#featured_content_container .gallery-item').size()-1);
 	var num=0;
 	var permalink = $('#featured_content_container .gallery-item:eq(0) .image img').attr("rel");
-	$('#featured_content_container.description,#featured_content_container .title').fadeTo("slow", 0.66 );
-	$('#featured_content_container.gallery-item:gt(0)').hide();
+	$('#featured_content_container .description,#featured_content_container .title').fadeTo("slow", 0.66 );
+	$('#featured_content_container .gallery-item:gt(0)').hide();
 	
 	if ( image_number <= 0 ) {
 		$('#featured_content_container #left_button,#featured_content_container  #right_button').remove();

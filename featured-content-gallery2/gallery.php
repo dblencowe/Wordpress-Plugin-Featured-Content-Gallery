@@ -27,53 +27,85 @@
     <?php 
     $imgthumb = get_option('gallery-use-thumb-image') ? "thumbnailimg" : "articleimg";
     $wordquantity = get_option('gallery-rss-word-quantity') ?  get_option('gallery-rss-word-quantity') : 100;
-    if (get_option('gallery-way') == 'new')	{//new way
-			 $arr = split(",",get_option('gallery-items-pages'));
-			 if (get_option('gallery-randomize-pages'))
-			 {
-			 	 shuffle($arr);
-			 }
-			 foreach ($arr as $post_or_page_id)   
-			 { 
-				 get_a_post($post_or_page_id); ?>
-				 <div class="imageElement">
-					 <h2><?php the_title() ?></h2>
-					 <?php 
-						if(get_option('gallery-use-featured-content')) {?>
-					     <p><?php $key="featuredtext"; echo get_post_meta($post->ID, $key, true); ?></p>
-					  <?php 
-					  } else {
-					  ?>
-					     <p><?php echo gallery_slice_content(get_the_content()); ?></p>
-					  <?php
-						}
-						?>
-					  <img src="<?php $key="articleimg"; echo get_post_meta($post->ID, $key, true); ?>" rel="<?php the_permalink() ?>" alt="<?php $key="alttext"; echo get_post_meta($post->ID, $key, true); ?>" class="full" />
-				  </div>
-			 <?php 
-			 } ?>
-	     </div>
+    if (get_option('gallery-way') == 'new')
+	{//new way
+			echo '<ul class="gallery">';
+			$arr = split(",",get_option('gallery-items-pages'));
+			if (get_option('gallery-randomize-pages'))
+			{
+				 shuffle($arr);
+			}
+			foreach ($arr as $post_or_page_id)   
+			{ 
+				get_a_post($post_or_page_id);
+			?>
+               <ul class="gallery-item">
+                <li class="paused">Paused</li>
+                <li class="title"><a href="<?php the_permalink() ?>"><?php echo gallery_slice_content(get_the_title(), 75); ?></a></title>
+                <?php 
+                    if(get_option('gallery-use-featured-content')) {?>
+                        <li class="description"><?php $key="featuredtext"; echo get_post_meta($post->ID, $key, true); ?></li>
+                    <?php 
+                    } else {
+                    ?>
+                        <li class="description"><?php echo gallery_slice_content(get_the_content(), 255); ?></li>
+                    <?php
+                    }
+                    ?>
+                    <li class="image">
+                    <?php
+                            $key="articleimg";
+                            $stuff = get_post_meta($post->ID, $key, true);
+                            if ( !empty($stuff) ) {
+                            ?>
+                            <!-- <?php echo get_post_meta($post->ID, $key, true); ?> -->
+                                <img src="<?php $key="articleimg"; echo get_post_meta($post->ID, $key, true); ?>" rel="<?php the_permalink() ?>" alt="<?php $key="alttext"; echo get_post_meta($post->ID, $key, true); ?>" class="full" />
+                            <?php
+                            } else {						
+                            ?>
+                                <img src="<?php echo get_option('gallery-default-image'); ?>" rel="<?php the_permalink() ?>" alt="<?php $key="alttext"; echo get_post_meta($post->ID, $key, true); ?>" class="full"/>
+                            <?php } ?>
+                      </li>
+              </ul>
+			<?php 
+			}
+			?>	     
+         </ul>
 	     <?php
 	  }
-	  else { ?>
+	  else
+	  { ?>
 	    <?php $temp_query = $wp_query; ?>
 	    <?php query_posts('category_name=' . get_option('gallery-category') . '&showposts=' . get_option('gallery-items')); ?>
 		<ul class="gallery">
 	    <?php if (have_posts()) : while (have_posts()) : the_post(); ?>
 	       <ul class="gallery-item">
 			<li class="paused">Paused</li>
-			<li class="title"><a href="<?php the_permalink() ?>"><?php the_title() ?></a></title>
+			<li class="title"><a href="<?php the_permalink() ?>"><?php echo gallery_slice_content(get_the_title(), 75); ?></a></title>
 			<?php 
 				if(get_option('gallery-use-featured-content')) {?>
 					<li class="description"><?php $key="featuredtext"; echo get_post_meta($post->ID, $key, true); ?></li>
 				<?php 
 				} else {
 				?>
-					<li class="description"><?php echo gallery_slice_content(get_the_content()); ?></li>
+					<li class="description"><?php echo gallery_slice_content(get_the_content(), 255); ?></li>
 				<?php
 				}
 				?>
-					<li class="image"><img src="<?php $key="articleimg"; echo get_post_meta($post->ID, $key, true); ?>" rel="<?php the_permalink() ?>" alt="<?php $key="alttext"; echo get_post_meta($post->ID, $key, true); ?>" class="full" /></li>
+                <li class="image">
+                <?php
+                    	$key="articleimg";
+						$stuff = get_post_meta($post->ID, $key, true);
+                        if ( !empty($stuff) ) {
+						?>
+                        <!-- <?php echo get_post_meta($post->ID, $key, true); ?> -->
+							<img src="<?php $key="articleimg"; echo get_post_meta($post->ID, $key, true); ?>" rel="<?php the_permalink() ?>" alt="<?php $key="alttext"; echo get_post_meta($post->ID, $key, true); ?>" class="full" />
+						<?php
+                        } else {						
+						?>
+                        	<img src="<?php echo get_option('gallery-default-image'); ?>" rel="<?php the_permalink() ?>" alt="<?php $key="alttext"; echo get_post_meta($post->ID, $key, true); ?>" class="full"/>
+                        <?php } ?>
+                  </li>
 	      </ul>
 	      <?php endwhile; else: ?>
 		  </ul>

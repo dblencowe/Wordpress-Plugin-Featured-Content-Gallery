@@ -50,8 +50,20 @@ $location = $options_page; // Form Action URI
   	    </tr>
 		</table>
         <div style="padding-top: 10px"></div>
-		<u><strong>Remove Jquery from header?</strong></u><br />
-		<table width="500" border="0" cellpadding="0" cellspacing="10">
+        
+        <table width="500" border="0" cellpadding="0" cellspacing="10">
+        <tr><td width="250"><u><strong>Default Image</strong></u><br /></td></tr>
+        	<tr>
+            	<td width="250">
+                	<?php
+                    	$defaultImage = get_option('gallery-default-image');
+					?>
+                	<input type="text" name="gallery-default-image" id="gallery-default-image" value="<?php print $defaultImage; ?>"/>
+                </td>
+            </tr>
+        <div style="padding-top: 10px"></div>
+        		<table width="500" border="0" cellpadding="0" cellspacing="10">
+            <tr><td width="500"><u><strong>Remove Jquery from header?</strong></u><br /></td></tr>
 			<tr>
 				<td width="250">
 					<?php $jquerychecked = get_option('gallery-jquery') ? "checked" : ""; ?>
@@ -64,7 +76,7 @@ $location = $options_page; // Form Action URI
         <div style="padding-top: 5px"></div>
         For each post or page you want to display in your gallery, regardless of your selections above, you <strong>must</strong> include a custom field. For the main gallery image, use the key <strong>articleimg</strong> and the full url of your image in the value.
         <input type="hidden" name="action" value="update" />
-        <input type="hidden" name="page_options" value="gallery-items,gallery-way,gallery-items-pages,gallery-category,gallery-randomize-pages,gallery-jquery" />
+        <input type="hidden" name="page_options" value="gallery-items,gallery-way,gallery-items-pages,gallery-category,gallery-randomize-pages,gallery-jquery,gallery-default-image" />
 
 		</fieldset>
 		<p class="submit"><input type="submit" name="Submit" value="<?php _e('Update Options') ?>" /></p>

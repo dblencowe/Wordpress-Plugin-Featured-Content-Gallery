@@ -42,14 +42,13 @@ function gallery_styles() {
 
     /* The xhtml header code needed for gallery to work: */
 	$jquery = get_option('gallery-jquery');
-	echo get_option('gallery-jquery');
-	$galleryscript = "
+	if($jquery !== 'on'){ $galleryscript .= '<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>'; }
+	$galleryscript .= "
 	<!-- begin gallery scripts -->
-    <link rel=\"stylesheet\" href=\"".$gallery_path."css/featured-content-gallery2.css\" type=\"text/css\" media=\"screen\" charset=\"utf-8\"/>
-	<script type=\"text/javascript\" src=\"".$gallery_path."scripts/slider.js\"></script>
+    <link rel=\"stylesheet\" href=\"".$gallery_path."css/featured-content-gallery2.big.css\" type=\"text/css\" media=\"screen\" charset=\"utf-8\"/>
+	<script type=\"text/javascript\" src=\"".$gallery_path."scripts/slider.big.js\"></script>
 	<script type=\"text/javascript\" src=\"".$gallery_path."scripts/jquery.timers.js\"></script>
 	<!-- end gallery scripts -->\n";
-	if($jquery !== 'on'){ $galleryscript .= '<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>'; }
 	/* Output $galleryscript as text for our web pages: */
 	echo($galleryscript);
 }
@@ -104,10 +103,9 @@ function get_a_post($id='GETPOST') {
 		setup_postdata($post);
 }
 
-function  gallery_slice_content($post_content)
+function  gallery_slice_content($post_content, $limit = 255)
 {
-    	$string = $post_content;
-		$limit = 225;
+    	$string = strip_tags($post_content);
 		$break = " ";
 		$pad = "...";
 
