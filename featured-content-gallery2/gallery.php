@@ -44,7 +44,7 @@
 					  <?php 
 					  } else {
 					  ?>
-					     <p><?php the_content_rss('', 0, '', $wordquantity); ?></p>
+					     <p><?php echo gallery_slice_content(get_the_content()); ?></p>
 					  <?php
 						}
 						?>
@@ -69,7 +69,7 @@
 				<?php 
 				} else {
 				?>
-					<li class="description"><?php the_content_rss('', 0, '', $wordquantity); ?></li>
+					<li class="description"><?php echo gallery_slice_content(get_the_content()); ?></li>
 				<?php
 				}
 				?>

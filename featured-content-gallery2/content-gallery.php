@@ -104,6 +104,24 @@ function get_a_post($id='GETPOST') {
 		setup_postdata($post);
 }
 
+function  gallery_slice_content($post_content)
+{
+    	$string = $post_content;
+		$limit = 225;
+		$break = " ";
+		$pad = "...";
+
+		if(strlen($string) >= $limit)
+		{
+			$breakpoint = strpos($string, $break, $limit);
+			return substr($string, 0, $breakpoint) . $pad;
+		}
+		else
+		{
+			return $string;
+		}
+}
+
 /* we want to add the above xhtml to the header of our pages: */
 add_action('wp_head', 'gallery_styles');
 add_action('admin_menu', 'gallery_options_page');
